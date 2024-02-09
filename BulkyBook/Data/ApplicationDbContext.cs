@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using BulkyBook.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace BulkyBook.Data
 {
@@ -8,5 +9,7 @@ namespace BulkyBook.Data
         {
             
         }
+        //Create Dbset for Categories Table
+        public DbSet<CategoryModel> Categories { get; set; }
     }
 }
