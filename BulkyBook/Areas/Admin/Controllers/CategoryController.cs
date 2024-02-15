@@ -17,7 +17,7 @@ namespace BulkyBook.Areas.Admin.Controllers
         }
         public IActionResult Index()
         {
-            List<CategoryModel> objCategoryList = CategoryUnitOfWork.CategoryRepository.GetAll().ToList();
+            List<CategoryModel> objCategoryList = CategoryUnitOfWork.Category.GetAll().ToList();
             return View(objCategoryList);
         }
 
@@ -39,7 +39,7 @@ namespace BulkyBook.Areas.Admin.Controllers
 
             if (ModelState.IsValid)
             {
-                CategoryUnitOfWork.CategoryRepository.Add(obj);
+                CategoryUnitOfWork.Category.Add(obj);
                 CategoryUnitOfWork.Save();
                 TempData["Success"] = "New Category Created Successfully";
                 return RedirectToAction("Index");
@@ -56,7 +56,7 @@ namespace BulkyBook.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            CategoryModel? CategoryFromDb = CategoryUnitOfWork.CategoryRepository.Get(u => u.CategoryID == id);
+            CategoryModel? CategoryFromDb = CategoryUnitOfWork.Category.Get(u => u.CategoryID == id);
             if (CategoryFromDb == null)
             {
                 return NotFound();
@@ -69,7 +69,7 @@ namespace BulkyBook.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                CategoryUnitOfWork.CategoryRepository.Update(obj);
+                CategoryUnitOfWork.Category.Update(obj);
                 CategoryUnitOfWork.Save();
                 TempData["Success"] = "Category Updated Successfully";
                 return RedirectToAction("Index");
@@ -86,7 +86,7 @@ namespace BulkyBook.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            CategoryModel? CategoryFromDb = CategoryUnitOfWork.CategoryRepository.Get(u => u.CategoryID == id);
+            CategoryModel? CategoryFromDb = CategoryUnitOfWork.Category.Get(u => u.CategoryID == id);
             if (CategoryFromDb == null)
             {
                 return NotFound();
@@ -97,7 +97,7 @@ namespace BulkyBook.Areas.Admin.Controllers
         [HttpPost, ActionName("DeleteCategory")]
         public IActionResult DeleteCategoryPost(CategoryModel obj)
         {
-            CategoryUnitOfWork.CategoryRepository.Remove(obj);
+            CategoryUnitOfWork.Category.Remove(obj);
             CategoryUnitOfWork.Save();
             TempData["Success"] = "Category Deleted Successfully";
             return RedirectToAction("Index");

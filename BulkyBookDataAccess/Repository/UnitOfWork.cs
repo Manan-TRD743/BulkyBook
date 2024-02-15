@@ -5,17 +5,20 @@ namespace BulkyBookDataAccess.Repository
 {
     public class UnitOfWork : IUnitOfWork
     {
-        public ICategoryRepository CategoryRepository { get; private set; }
-        private readonly ApplicationDbContext CategoryDbContext;
+        public ICategoryRepository Category { get; private set; }
+        public IProductRepository Product { get; private set; }
+
+        private ApplicationDbContext DbContext;
 
         public UnitOfWork(ApplicationDbContext applicationDbContext)
         {
-            CategoryDbContext = applicationDbContext;
-            CategoryRepository = new CategoryRepository(CategoryDbContext);
+            DbContext = applicationDbContext;
+            Category = new CategoryRepository(DbContext);
+            Product = new ProductRepository(DbContext);
         } 
         public void Save()
         {
-            CategoryDbContext.SaveChanges();
+            DbContext.SaveChanges();
         }
     }
 }

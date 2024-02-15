@@ -3,6 +3,7 @@ using BulkyBookSolution.BulkyBookDataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BulkyBookSolution.BulkyBookDataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240215055313_SeedProductTableToDb")]
+    partial class SeedProductTableToDb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,9 +32,6 @@ namespace BulkyBookSolution.BulkyBookDataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductID"));
 
-                    b.Property<int>("CategoryID")
-                        .HasColumnType("int");
-
                     b.Property<string>("ProductAuthor")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -42,9 +42,6 @@ namespace BulkyBookSolution.BulkyBookDataAccess.Migrations
 
                     b.Property<string>("ProductISBN")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ProductImgUrl")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("ProductListPrice")
@@ -65,15 +62,12 @@ namespace BulkyBookSolution.BulkyBookDataAccess.Migrations
 
                     b.HasKey("ProductID");
 
-                    b.HasIndex("CategoryID");
-
                     b.ToTable("Products");
 
                     b.HasData(
                         new
                         {
                             ProductID = 1,
-                            CategoryID = 1,
                             ProductAuthor = "Billy Spark",
                             ProductDescription = "Praesent vitae sodales libero. Praesent molestie orci augue, vitae euismod velit sollicitudin ac. Praesent vestibulum facilisis nibh ut ultricies.\r\n\r\nNunc malesuada viverra ipsum sit amet tincProductIDunt. ",
                             ProductISBN = "SWD9999001",
@@ -86,11 +80,9 @@ namespace BulkyBookSolution.BulkyBookDataAccess.Migrations
                         new
                         {
                             ProductID = 2,
-                            CategoryID = 1,
                             ProductAuthor = "Nancy Hoover",
                             ProductDescription = "Praesent vitae sodales libero. Praesent molestie orci augue, vitae euismod velit sollicitudin ac. Praesent vestibulum facilisis nibh ut ultricies.\r\n\r\nNunc malesuada viverra ipsum sit amet tincProductIDunt. ",
                             ProductISBN = "CAW777777701",
-                            ProductImgUrl = "",
                             ProductListPrice = 40.0,
                             ProductPriceFiftyPlus = 25.0,
                             ProductPriceHundredPlus = 20.0,
@@ -100,11 +92,9 @@ namespace BulkyBookSolution.BulkyBookDataAccess.Migrations
                         new
                         {
                             ProductID = 3,
-                            CategoryID = 2,
                             ProductAuthor = "Julian Button",
                             ProductDescription = "Praesent vitae sodales libero. Praesent molestie orci augue, vitae euismod velit sollicitudin ac. Praesent vestibulum facilisis nibh ut ultricies.\r\n\r\nNunc malesuada viverra ipsum sit amet tincProductIDunt. ",
                             ProductISBN = "RITO5555501",
-                            ProductImgUrl = "",
                             ProductListPrice = 55.0,
                             ProductPriceFiftyPlus = 40.0,
                             ProductPriceHundredPlus = 35.0,
@@ -114,11 +104,9 @@ namespace BulkyBookSolution.BulkyBookDataAccess.Migrations
                         new
                         {
                             ProductID = 4,
-                            CategoryID = 3,
                             ProductAuthor = "Abby Muscles",
                             ProductDescription = "Praesent vitae sodales libero. Praesent molestie orci augue, vitae euismod velit sollicitudin ac. Praesent vestibulum facilisis nibh ut ultricies.\r\n\r\nNunc malesuada viverra ipsum sit amet tincProductIDunt. ",
                             ProductISBN = "WS3333333301",
-                            ProductImgUrl = "",
                             ProductListPrice = 70.0,
                             ProductPriceFiftyPlus = 60.0,
                             ProductPriceHundredPlus = 55.0,
@@ -128,11 +116,9 @@ namespace BulkyBookSolution.BulkyBookDataAccess.Migrations
                         new
                         {
                             ProductID = 5,
-                            CategoryID = 2,
                             ProductAuthor = "Ron Parker",
                             ProductDescription = "Praesent vitae sodales libero. Praesent molestie orci augue, vitae euismod velit sollicitudin ac. Praesent vestibulum facilisis nibh ut ultricies.\r\n\r\nNunc malesuada viverra ipsum sit amet tincProductIDunt. ",
                             ProductISBN = "SOTJ1111111101",
-                            ProductImgUrl = "",
                             ProductListPrice = 30.0,
                             ProductPriceFiftyPlus = 25.0,
                             ProductPriceHundredPlus = 20.0,
@@ -142,11 +128,9 @@ namespace BulkyBookSolution.BulkyBookDataAccess.Migrations
                         new
                         {
                             ProductID = 6,
-                            CategoryID = 3,
                             ProductAuthor = "Laura Phantom",
                             ProductDescription = "Praesent vitae sodales libero. Praesent molestie orci augue, vitae euismod velit sollicitudin ac. Praesent vestibulum facilisis nibh ut ultricies.\r\n\r\nNunc malesuada viverra ipsum sit amet tincProductIDunt. ",
                             ProductISBN = "FOT000000001",
-                            ProductImgUrl = "",
                             ProductListPrice = 25.0,
                             ProductPriceFiftyPlus = 22.0,
                             ProductPriceHundredPlus = 20.0,
@@ -193,17 +177,6 @@ namespace BulkyBookSolution.BulkyBookDataAccess.Migrations
                             CategoryDisplayOrder = 3,
                             CategoryName = "Histroy"
                         });
-                });
-
-            modelBuilder.Entity("BulkyBookModel.ProductModel", b =>
-                {
-                    b.HasOne("BulkyBookSolution.BulkyBookModel.Models.CategoryModel", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
                 });
 #pragma warning restore 612, 618
         }

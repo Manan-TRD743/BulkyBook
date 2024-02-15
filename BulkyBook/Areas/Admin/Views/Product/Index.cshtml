@@ -1,8 +1,9 @@
-﻿@model List<CategoryModel>
+﻿@using BulkyBookModel
+@model List<ProductModel>
 <div class="card shadow borderborder-0 mt-4">
     <div class="card-header bg-secondary bg-gradient ml-0 py-3">
         <div class="col-12 text-center">
-            <h2 class="text-white py-2">Category List</h2>
+            <h2 class="text-white py-2">Product List</h2>
             <hr />
         </div>
     </div>
@@ -13,8 +14,8 @@
         <div class="col-6"> 
         </div>
         <div class="col-6 text-end">
-            <a asp-controller="Category" asp-action="CreateNewCategory" class="btn" style="background-color:#3A595C">
-                <i class="bi bi-plus-circle" style="font-style : normal; color: white;"> Create New Category</i>
+            <a asp-controller="Product" asp-action="UpsertProduct" class="btn" style="background-color:#3A595C">
+                <i class="bi bi-plus-circle" style="font-style : normal; color: white;"> Create New Product</i>
             </a>
         </div>
     </div>
@@ -23,31 +24,37 @@
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
-                <th>
-                    Category Name
-                </th>
-                <th>
-                    Display Order
-                </th>
+                <th>Title</th>
+                <th>ISBN</th>
+                <th>Price</th>
+                <th>Author</th>
+                <th>Category</th>
                 <th></th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var obj in Model.OrderBy(u => u.CategoryDisplayOrder))
+            @foreach (var obj in Model)
             {
                 <tr>
                     <td>
-                        @obj.CategoryName
+                        @obj.ProductTitle
                     </td>
                     <td>
-                        @obj.CategoryDisplayOrder
+                        @obj.ProductISBN
                     </td>
+                    <td>
+                        @obj.ProductListPrice
+                    </td>
+                    <td>
+                        @obj.ProductAuthor
+                    </td>
+                    <td></td>
                     <td>
                         <div class="w-75 btn-group" role="group">
-                            <a asp-controller="Category" asp-action="EditCategory" asp-route-id="@obj.CategoryID" class="btn btn-delete  mx-2">
+                            <a asp-controller="Product" asp-action="UpsertProduct" asp-route-id="@obj.ProductID" class="btn btn-delete  mx-2">
                                 <i class="bi bi-pencil-square"></i> Edit
                             </a>
-                            <a asp-controller="Category" asp-action="DeleteCategory" asp-route-id="@obj.CategoryID" class="btn btn-delete mx-2">
+                            <a asp-controller="Product" asp-action="DeleteProduct" asp-route-id="@obj.ProductID" class="btn btn-delete mx-2">
                                 <i class="bi bi-trash-fill"></i> Delete
                             </a>
                         </div>
