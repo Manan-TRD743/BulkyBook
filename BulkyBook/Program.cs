@@ -2,15 +2,19 @@ using BulkyBookDataAccess.Repository.IRepository;
 using BulkyBookSolution.BulkyBookDataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using BulkyBookDataAccess.Repository;
+using System.Globalization;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddDbContext<ApplicationDbContext>(Options => 
+builder.Services.AddDbContext<ApplicationDbContext>(Options =>
         Options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+
+
 
 
 var app = builder.Build();

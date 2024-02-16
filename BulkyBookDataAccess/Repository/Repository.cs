@@ -14,27 +14,45 @@ namespace BulkyBookDataAccess.Repository
     {
         private ApplicationDbContext _db;
         internal DbSet<T> dbSet;
+        
         public Repository(ApplicationDbContext context)
         {
             _db = context;
             this.dbSet = _db.Set<T>();
+            _db.Products.Include(u => u.Category).Include(u => u.CategoryID);
         }
         public void Add(T item)
         {
            dbSet.Add(item);
         }
 
-        public T Get(Expression<Func<T, bool>> filter)
+        public T Get(Expression<Func<T, bool>> filter, String? includeProperties = null)
         {
             IQueryable<T> query = dbSet;
+            if (!string.IsNullOrEmpty(includeProperties))
+            {
+                foreach (var property in includeProperties.
+                    Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query = query.Include(property);
+                }
+            }
             query = query.Where(filter);
             return query.FirstOrDefault();
         }
 
-        public IEnumerable<T> GetAll()
+        //Category Covertype
+        public IEnumerable<T> GetAll(String? includeProperties = null)
         {
             IQueryable<T> query = dbSet;
-         
+            if (!string.IsNullOrEmpty(includeProperties))
+            {
+                foreach(var property in includeProperties.
+                    Split(new char[] {','},StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query=query.Include(property);
+                }
+            }
             return query.ToList();
         }
 

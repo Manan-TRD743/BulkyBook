@@ -51,6 +51,7 @@ namespace BulkyBookModel
         [ValidateNever]
         public CategoryModel Category { get; set; }
         [ValidateNever]
+        [Display(Name ="Select Product Image")]
         public string? ProductImgUrl { get; set; }
 
 }
