@@ -1,5 +1,6 @@
 ﻿using BulkyBook_WebAPI.Data;
 using BulkyBook_WebAPI.Model;
+using BulkyBook_WebAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,22 +10,22 @@ namespace BulkyBook_WebAPI.Controllers
     [ApiController]
     public class CategoryController : Controller
     {
-        private readonly ApplicationDbContext context;
-        public CategoryController(ApplicationDbContext context)
+        private readonly IUnitOfWork UnitOfWorkObj;
+        public CategoryController(IUnitOfWork unitOfWork)
         {
-            this.context = context;
+            UnitOfWorkObj = unitOfWork;
         }
 
         #region GetData
         // GET: api/Category
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public IActionResult GetCategory()
         {
             try
             {
                 // Retrieve all Category from the database
-                var getcategory = await context.CategoriesDetalis.ToListAsync();
-                if (getcategory == null)
+                var GetCategory = UnitOfWorkObj.Category.GetAll();
+                if (GetCategory == null)
                 {
                     // Handle the case where Category is null
                     return StatusCode(500, "Failed to retrieve Category from the database.");
@@ -32,7 +33,7 @@ namespace BulkyBook_WebAPI.Controllers
                 else
                 {
                     // Return success response with the list of Category
-                    return Ok(new { StatusCode = 200, status = "Success", Categories = getcategory });
+                    return Ok(new { StatusCode = 200, status = "Success", Categories = GetCategory });
                 }
 
             }
@@ -45,8 +46,8 @@ namespace BulkyBook_WebAPI.Controllers
 
 
         // GET: api/Category/5
-        [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id)
+        [HttpPost("{id}")]
+        public IActionResult GetCategoryById(int id)
         {
 
             try
@@ -57,7 +58,7 @@ namespace BulkyBook_WebAPI.Controllers
                     return BadRequest(new { StatusCode = 400, Message = "Bad Request" });
                 }
                 // Retrieve a specific Category by id
-                var category = await context.CategoriesDetalis.SingleOrDefaultAsync(m => m.CategoryID == id);
+                var category = UnitOfWorkObj.Category.Get(u => u.CategoryID.Equals(id));
                 if (category == null)
                 {
                     // Return NotFound if the Category is not found
@@ -78,7 +79,7 @@ namespace BulkyBook_WebAPI.Controllers
         #region Add Data
         // POST: api/Categorys
         [HttpPost]
-        public async Task<IActionResult> Post(Category Category)
+        public IActionResult PostCategory(Category Category)
         {
             try
             {
@@ -86,8 +87,8 @@ namespace BulkyBook_WebAPI.Controllers
                 {
                     return NotFound(new { StatusCode = 404, Status = "Category not found" });
                 }
-                context.Add(Category);
-                await context.SaveChangesAsync();
+                UnitOfWorkObj.Category.Add(Category);
+                UnitOfWorkObj.Save();
                 return Ok(new { StatusCode = 200, status = "Success", Categorys = Category });
             }
             catch (Exception ex)
@@ -101,7 +102,7 @@ namespace BulkyBook_WebAPI.Controllers
         #region Update Data
         // PUT: api/Categorys
         [HttpPut]
-        public async Task<IActionResult> Put(Category CategoryData)
+        public  IActionResult UpdateCategory(Category CategoryData)
         {
             try
             {
@@ -110,19 +111,9 @@ namespace BulkyBook_WebAPI.Controllers
                     // Bad request if CategoryData is null or has an invalid CategoryId
                     return BadRequest(new { StatusCode = 400, Message = "Bad Request" });
                 }
-                // Find the existing Category by CategoryId
-                var updateCategory = await context.CategoriesDetalis.FindAsync(CategoryData.CategoryID);
-                if (updateCategory == null)
-                {
-                    // Return NotFound if the Category to update is not found
-                    return NotFound(new { StatusCode = 404, Message = "Not Found" });
-                }
-                // Update the Category properties and save changes
-                updateCategory.CategoryName = CategoryData.CategoryName;
-                updateCategory.CategoryDisplayOrder = CategoryData.CategoryDisplayOrder;
-                
-
-                await context.SaveChangesAsync();
+                // Update Category
+                UnitOfWorkObj.Category.UpdateCategory(CategoryData);
+                UnitOfWorkObj.Save();
                 return Ok(new { StatusCode = 200, status = "Success", Categorys = CategoryData });
 
             }
@@ -138,7 +129,7 @@ namespace BulkyBook_WebAPI.Controllers
         // DELETE: api/Categorys/5
         [HttpDelete("{id}")]
 
-        public async Task<IActionResult> Delete(int id)
+        public IActionResult DeleteProduct(int id)
         {
             try
             {
@@ -148,15 +139,16 @@ namespace BulkyBook_WebAPI.Controllers
                     return BadRequest(new { StatusCode = 400, Message = "Bad Request" });
                 }
                 // Find the Category to delete by id
-                var DeleteCategory = await context.CategoriesDetalis.FindAsync(id);
+                var DeleteCategory = UnitOfWorkObj.Category.Get(u=>u.CategoryID.Equals(id));
                 if (DeleteCategory == null)
                 {
                     // Return NotFound if the Category to delete is not found
                     return NotFound(new { StatusCode = 404, Message = "Not Found" });
                 }
                 // Remove the Category and save changes
-                context.CategoriesDetalis.Remove(DeleteCategory);
-                await context.SaveChangesAsync();
+               UnitOfWorkObj.Category.Remove(DeleteCategory); 
+               UnitOfWorkObj.Save();
+              
                 return Ok(new { StatusCode = 200, status = "Success" });
 
             }
@@ -165,8 +157,6 @@ namespace BulkyBook_WebAPI.Controllers
                 // Return error response with 500 status code
                 return StatusCode(500, new { error = "Internal Server Error : " + ex.Message });
             }
-
-
         }
         #endregion
     }
