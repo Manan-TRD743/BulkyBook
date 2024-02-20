@@ -4,6 +4,8 @@
     {
         ICategory Category { get; }
 
+        IProduct Product { get; }
+
         void Save();
     }
 }
