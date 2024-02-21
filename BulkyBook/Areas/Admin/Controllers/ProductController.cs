@@ -128,7 +128,7 @@ namespace BulkyBook.Areas.Admin.Controllers
         }
         #endregion
 
-        #region API Call
+        #region GetAll Product
         [HttpGet]
         public IActionResult GetAll()
         {

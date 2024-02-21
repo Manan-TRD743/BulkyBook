@@ -4,6 +4,7 @@ using BulkyBookSolution.BulkyBookDataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BulkyBookSolution.BulkyBookDataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240221060304_AddCompanyToDb")]
+    partial class AddCompanyToDb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -24,11 +27,11 @@ namespace BulkyBookSolution.BulkyBookDataAccess.Migrations
 
             modelBuilder.Entity("BulkyBookModel.CompanyModel", b =>
                 {
-                    b.Property<int>("CompanyID")
+                    b.Property<int>("ComapnnyID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CompanyID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ComapnnyID"));
 
                     b.Property<string>("City")
                         .HasColumnType("nvarchar(max)");
@@ -49,61 +52,9 @@ namespace BulkyBookSolution.BulkyBookDataAccess.Migrations
                     b.Property<string>("StreetAddress")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("CompanyID");
+                    b.HasKey("ComapnnyID");
 
                     b.ToTable("Companies");
-
-                    b.HasData(
-                        new
-                        {
-                            CompanyID = 1,
-                            City = "New York",
-                            CompanyName = "ABC Corporation",
-                            PhoneNumber = "555-123-4567",
-                            PostalCode = "10001",
-                            State = "NY",
-                            StreetAddress = "123 Main St"
-                        },
-                        new
-                        {
-                            CompanyID = 2,
-                            City = "Los Angeles",
-                            CompanyName = "XYZ Inc.",
-                            PhoneNumber = "555-987-6543",
-                            PostalCode = "90001",
-                            State = "CA",
-                            StreetAddress = "456 Elm St"
-                        },
-                        new
-                        {
-                            CompanyID = 3,
-                            City = "Chicago",
-                            CompanyName = "123 Industries",
-                            PhoneNumber = "555-555-5555",
-                            PostalCode = "60601",
-                            State = "IL",
-                            StreetAddress = "789 Oak St"
-                        },
-                        new
-                        {
-                            CompanyID = 4,
-                            City = "Miami",
-                            CompanyName = "Smith & Co.",
-                            PhoneNumber = "555-321-9876",
-                            PostalCode = "33101",
-                            State = "FL",
-                            StreetAddress = "101 Pine St"
-                        },
-                        new
-                        {
-                            CompanyID = 5,
-                            City = "San Francisco",
-                            CompanyName = "Acme Enterprises",
-                            PhoneNumber = "555-888-9999",
-                            PostalCode = "94101",
-                            State = "CA",
-                            StreetAddress = "202 Maple St"
-                        });
                 });
 
             modelBuilder.Entity("BulkyBookModel.ProductModel", b =>

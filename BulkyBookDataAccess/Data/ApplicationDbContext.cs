@@ -15,9 +15,9 @@ namespace BulkyBookSolution.BulkyBookDataAccess.Data
         //Create Dbset for Categories Table
         public DbSet<CategoryModel> Categories { get; set; }
         public DbSet<ProductModel> Products { get; set; }
-
+        public DbSet<CompanyModel> Companies { get; set; }
         public DbSet<ApplicationUserModel> ApplicationUsers { get; set; }
-
+        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -114,6 +114,15 @@ namespace BulkyBookSolution.BulkyBookDataAccess.Data
                     ProductImgUrl = ""
                 }
                );
+            //Add Data in Company Model
+            modelBuilder.Entity<CompanyModel>().HasData(
+                     new CompanyModel { CompanyID = 1, CompanyName = "ABC Corporation", StreetAddress = "123 Main St", City = "New York", State = "NY", PostalCode = "10001", PhoneNumber = "555-123-4567" },
+                     new CompanyModel { CompanyID = 2, CompanyName = "XYZ Inc.", StreetAddress = "456 Elm St", City = "Los Angeles", State = "CA", PostalCode = "90001", PhoneNumber = "555-987-6543" },
+                     new CompanyModel { CompanyID = 3, CompanyName = "123 Industries", StreetAddress = "789 Oak St", City = "Chicago", State = "IL", PostalCode = "60601", PhoneNumber = "555-555-5555" },
+                     new CompanyModel { CompanyID = 4, CompanyName = "Smith & Co.", StreetAddress = "101 Pine St", City = "Miami", State = "FL", PostalCode = "33101", PhoneNumber = "555-321-9876" },
+                     new CompanyModel { CompanyID = 5, CompanyName = "Acme Enterprises", StreetAddress = "202 Maple St", City = "San Francisco", State = "CA", PostalCode = "94101", PhoneNumber = "555-888-9999" }
+);
+
         }
     }
 }
