@@ -16,7 +16,7 @@ namespace BulkyBook_WebAPI.Model
         public float ProductPriceHundredPlus { get; set; }
         [ForeignKey(nameof(ProductID))]
         public int CategoryID { get; set; }
-        public CategoryModel? Category { get; set; }
+        public Category? Category { get; set; }
         public string ProductImgUrl { get; set; } = string.Empty;
 
     }

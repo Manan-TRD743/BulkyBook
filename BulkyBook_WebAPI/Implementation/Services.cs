@@ -1,4 +1,4 @@
-﻿using BulkyBook_WebAPI.Data;
+﻿/*using BulkyBook_WebAPI.Data;
 using BulkyBook_WebAPI.Services;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
@@ -40,4 +40,4 @@ namespace BulkyBook_WebAPI.Implementation
            Dbset.Remove(item);
         }
     }
-}
+}*/

@@ -1,44 +1,43 @@
-﻿using BulkyBookDataAccess.Repository;
-using BulkyBookDataAccess.Repository.IRepository;
+﻿using BulkyBookDataAccess.Repository.IRepository;
 using BulkyBookModel;
-using BulkyBookModel.ViewModel;
 using BulkyBookUtility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace BulkyBook.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    // Only Admin is Authorize Person
     [Authorize(Roles = StaticData.RoleUserAdmin)]
     public class CompanyController : Controller
     {
         private readonly IUnitOfWork CompanyUnitOfWork;
-        private readonly IWebHostEnvironment CompanyWebHostEnvironment;
 
-        public CompanyController(IUnitOfWork UnitOfWorkCompany, IWebHostEnvironment webHostEnvironment)
+        public CompanyController(IUnitOfWork UnitOfWorkCompany)
         {
             CompanyUnitOfWork = UnitOfWorkCompany;
-            CompanyWebHostEnvironment = webHostEnvironment;
         }
+        #region Get Company List
         public IActionResult Index()
         {
             List<CompanyModel> objCompanyList = CompanyUnitOfWork.Company.GetAll().ToList();
                 return View(objCompanyList);
         }
+        #endregion
 
-        #region CreateNewCompany
+        #region Create and Update Company Details
+
         public IActionResult UpsertCompany(int? id)
         {
+            //Check Company id is null or not
             if(id==null || id == 0)
             {
-                //Create Company
                 return View(new CompanyModel());
             }
             else
             {
-                //Update Company
-                CompanyModel Company = CompanyUnitOfWork.Company.Get(u=>u.CompanyID ==  id);
+                //GetCompany Details From ID for Update Detalis
+                CompanyModel Company = CompanyUnitOfWork.Company.Get(u=>u.CompanyID.Equals(id));
                 return View(Company);
             }
           
@@ -60,7 +59,7 @@ namespace BulkyBook.Areas.Admin.Controllers
                     }
                     else
                     {
-                        //Add Company
+                        //Update Company Details
                         CompanyUnitOfWork.Company.UpdateCompany(Companyobj);
                         CompanyUnitOfWork.Save();
                         TempData["Success"] = "Company Details Updated Successfully";
@@ -83,11 +82,11 @@ namespace BulkyBook.Areas.Admin.Controllers
         }
         #endregion
 
-        #region GetALl Data
+        #region GetALl Data for Datatable
         [HttpGet]
         public IActionResult GetAllCompany()
         {
-            
+            // Get Company List and return it in json Format
             List<CompanyModel> Companylist = CompanyUnitOfWork.Company.GetAll().ToList();
             return Json(new {Data = Companylist});
         }
@@ -97,12 +96,13 @@ namespace BulkyBook.Areas.Admin.Controllers
         [HttpDelete]
         public IActionResult DeleteCompany(int id)
         {
-            CompanyModel CompanyToBeDelelted = CompanyUnitOfWork.Company.Get(u => u.CompanyID == id);
+            //Get Company Details From Copmany ID 
+            CompanyModel CompanyToBeDelelted = CompanyUnitOfWork.Company.Get(u => u.CompanyID.Equals(id));
             if(CompanyToBeDelelted == null)
             {
                 return Json( new  { sucess = false,message="Error While Deleting" } );
             }
-           
+                //Delete Company
                 CompanyUnitOfWork.Company.Remove(CompanyToBeDelelted);
                 CompanyUnitOfWork.Save();
                 return Json(new { sucess = true, message = "Delete Sucessfully" });

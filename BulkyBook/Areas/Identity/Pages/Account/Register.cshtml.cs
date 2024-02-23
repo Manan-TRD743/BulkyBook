@@ -2,18 +2,9 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Text.Encodings.Web;
-using System.Threading;
-using System.Threading.Tasks;
 using BulkyBookModel;
 using BulkyBookUtility;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -21,7 +12,9 @@ using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.Extensions.Logging;
+using System.ComponentModel.DataAnnotations;
+using System.Text;
+using System.Text.Encodings.Web;
 
 namespace BulkyBook.Areas.Identity.Pages.Account
 {
@@ -105,28 +98,22 @@ namespace BulkyBook.Areas.Identity.Pages.Account
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
 
-            public string? Role { get; set; }
+            public string Role { get; set; }
             [ValidateNever]
             public IEnumerable<SelectListItem> RoleList {  get; set; }
-
-            public string? ApplicationUserName { get; set; }
-
-            public String? ApplicationUserStreetAddress { get; set; }
-
-            public String? ApplicationUserCity { get; set; }
-
-            public String? ApplicationUserState { get; set; }
-
-            public String? ApplicationUserPostalCode { get; set; }
-
-            public String? PhoneNumber { get; set; }
-
+            public string ApplicationUserName { get; set; }
+            public String ApplicationUserStreetAddress { get; set; }
+            public String ApplicationUserCity { get; set; }
+            public String ApplicationUserState { get; set; }
+            public String ApplicationUserPostalCode { get; set; }
+            public String PhoneNumber { get; set; }
 
         }
 
 
         public async Task OnGetAsync(string returnUrl = null)
         {
+            // Checking role existence and creating if not exists
             if (!_roleManager.RoleExistsAsync(StaticData.RoleUserCustomer).GetAwaiter().GetResult())
             {
                 _roleManager.CreateAsync(new IdentityRole(StaticData.RoleUserCustomer)).GetAwaiter().GetResult();
@@ -135,6 +122,7 @@ namespace BulkyBook.Areas.Identity.Pages.Account
                 _roleManager.CreateAsync(new IdentityRole(StaticData.RoleUserEmployee)).GetAwaiter().GetResult();
             }
 
+            // Initialize InputModel with RoleList
             Input = new()
             {
                 RoleList = _roleManager.Roles.Select(u => u.Name).Select(i => new SelectListItem
@@ -150,12 +138,16 @@ namespace BulkyBook.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
+            // Set returnUrl if not provided
             returnUrl ??= Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            // Validation of model state
             if (ModelState.IsValid)
             {
+                // Create a new user
                 var user = CreateUser();
 
+                // Set user properties
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                 user.ApplicationUserCity = Input.ApplicationUserCity;
@@ -164,11 +156,16 @@ namespace BulkyBook.Areas.Identity.Pages.Account
                 user.ApplicationUserPostalCode = Input.ApplicationUserPostalCode;
                 user.PhoneNumber= Input.PhoneNumber;
                 user.ApplicationUserName = Input.ApplicationUserName;
+
+                // Attempt to create the user
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
+                // If user creation is successful
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
+
+                    // Add user to the specified role
                     if (!String.IsNullOrEmpty(Input.Role))
                     {
                         await _userManager.AddToRoleAsync(user, Input.Role);
@@ -178,8 +175,8 @@ namespace BulkyBook.Areas.Identity.Pages.Account
                         await _userManager.AddToRoleAsync(user, StaticData.RoleUserCustomer);
                     }
 
+                    // Generate email confirmation token
                     var userId = await _userManager.GetUserIdAsync(user);
-                    
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                     var callbackUrl = Url.Page(
@@ -188,8 +185,10 @@ namespace BulkyBook.Areas.Identity.Pages.Account
                         values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
                         protocol: Request.Scheme);
 
+
                     await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {

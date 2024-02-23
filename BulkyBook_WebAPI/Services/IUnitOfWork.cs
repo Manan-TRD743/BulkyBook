@@ -1,4 +1,4 @@
-﻿namespace BulkyBook_WebAPI.Services
+﻿/*namespace BulkyBook_WebAPI.Services
 {
     public interface IUnitOfWork 
     {
@@ -9,3 +9,4 @@
         void Save();
     }
 }
+*/

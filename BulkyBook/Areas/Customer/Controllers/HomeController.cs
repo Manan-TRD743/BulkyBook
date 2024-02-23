@@ -2,7 +2,6 @@ using BulkyBookDataAccess.Repository.IRepository;
 using BulkyBookModel;
 using BulkyBookSolution.BulkyBookModel.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Immutable;
 using System.Diagnostics;
 
 namespace BulkyBook.Areas.Customer.Controllers
@@ -21,12 +20,14 @@ namespace BulkyBook.Areas.Customer.Controllers
 
         public IActionResult Index()
         {
+            //Get All Product Details and also include the Details of catgeory which is releted to Product
             IEnumerable<ProductModel> productlist = _unitOfWork.Product.GetAll(includeProperties: "Category");
             return View(productlist);
         }
         public IActionResult ProductDetails(int id)
         {
-            ProductModel product = _unitOfWork.Product.Get(u=>u.ProductID==id,includeProperties: "Category");
+            //Get Product from id 
+            ProductModel product = _unitOfWork.Product.Get(u=>u.ProductID.Equals(id),includeProperties: "Category");
             return View(product);
         }
         public IActionResult Privacy()

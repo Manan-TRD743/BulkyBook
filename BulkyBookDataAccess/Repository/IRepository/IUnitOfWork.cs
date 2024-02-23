@@ -1,19 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BulkyBookDataAccess.Repository.IRepository
+﻿namespace BulkyBookDataAccess.Repository.IRepository
 {
+    // Interface for Unit of Work pattern, which manages multiple repositories
     public interface IUnitOfWork
     {
+        // Accessor for Category repository
         ICategoryRepository Category { get; }
 
+        // Accessor for Product repository
         IProductRepository Product { get; }
 
-       ICompanyRepository Company { get; } 
+        // Accessor for Company repository
+        ICompanyRepository Company { get; }
 
+        // Saves changes made in repositories
         void Save();
     }
 }
+

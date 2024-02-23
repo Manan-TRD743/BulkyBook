@@ -14,20 +14,30 @@ namespace BulkyBookSolution.BulkyBookDataAccess.Data
         }
         //Create Dbset for Categories Table
         public DbSet<CategoryModel> Categories { get; set; }
+
+        //Create Dbset for Products Table
         public DbSet<ProductModel> Products { get; set; }
+
+        //Create Dbset for Companies Table
         public DbSet<CompanyModel> Companies { get; set; }
+
+        //Create Dbset for ApplicationUsers Table
         public DbSet<ApplicationUserModel> ApplicationUsers { get; set; }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            #region Seed Category Table
             //Add Data Into Categories Table
             modelBuilder.Entity<CategoryModel>().HasData(
-                new CategoryModel { CategoryID = 1 , CategoryName = "Action", CategoryDisplayOrder = 1},
+                new CategoryModel { CategoryID = 1, CategoryName = "Action", CategoryDisplayOrder = 1 },
                 new CategoryModel { CategoryID = 2, CategoryName = "Sci-Fi", CategoryDisplayOrder = 2 },
                 new CategoryModel { CategoryID = 3, CategoryName = "Histroy", CategoryDisplayOrder = 3 }
                 );
+            #endregion
 
+            #region Seed Product Table
             //Add Data Into Product Table
             modelBuilder.Entity<ProductModel>().HasData(
               new ProductModel
@@ -41,7 +51,7 @@ namespace BulkyBookSolution.BulkyBookDataAccess.Data
                   ProductPriceOneToFifty = 90,
                   ProductPriceFiftyPlus = 85,
                   ProductPriceHundredPlus = 80,
-                  CategoryID=1
+                  CategoryID = 1
               },
                 new ProductModel
                 {
@@ -54,8 +64,8 @@ namespace BulkyBookSolution.BulkyBookDataAccess.Data
                     ProductPriceOneToFifty = 30,
                     ProductPriceFiftyPlus = 25,
                     ProductPriceHundredPlus = 20,
-                    CategoryID=1,
-                    ProductImgUrl=""
+                    CategoryID = 1,
+                    ProductImgUrl = ""
                 },
                 new ProductModel
                 {
@@ -68,7 +78,7 @@ namespace BulkyBookSolution.BulkyBookDataAccess.Data
                     ProductPriceOneToFifty = 50,
                     ProductPriceFiftyPlus = 40,
                     ProductPriceHundredPlus = 35,
-                    CategoryID=2,
+                    CategoryID = 2,
                     ProductImgUrl = ""
                 },
                 new ProductModel
@@ -82,7 +92,7 @@ namespace BulkyBookSolution.BulkyBookDataAccess.Data
                     ProductPriceOneToFifty = 65,
                     ProductPriceFiftyPlus = 60,
                     ProductPriceHundredPlus = 55,
-                    CategoryID=3,
+                    CategoryID = 3,
                     ProductImgUrl = ""
                 },
                 new ProductModel
@@ -96,7 +106,7 @@ namespace BulkyBookSolution.BulkyBookDataAccess.Data
                     ProductPriceOneToFifty = 27,
                     ProductPriceFiftyPlus = 25,
                     ProductPriceHundredPlus = 20,
-                    CategoryID=2,
+                    CategoryID = 2,
                     ProductImgUrl = ""
                 },
                 new ProductModel
@@ -110,18 +120,22 @@ namespace BulkyBookSolution.BulkyBookDataAccess.Data
                     ProductPriceOneToFifty = 23,
                     ProductPriceFiftyPlus = 22,
                     ProductPriceHundredPlus = 20,
-                    CategoryID=3,
+                    CategoryID = 3,
                     ProductImgUrl = ""
                 }
                );
+            #endregion
+
+            #region Seed Company Table
             //Add Data in Company Model
             modelBuilder.Entity<CompanyModel>().HasData(
                      new CompanyModel { CompanyID = 1, CompanyName = "ABC Corporation", StreetAddress = "123 Main St", City = "New York", State = "NY", PostalCode = "10001", PhoneNumber = "555-123-4567" },
                      new CompanyModel { CompanyID = 2, CompanyName = "XYZ Inc.", StreetAddress = "456 Elm St", City = "Los Angeles", State = "CA", PostalCode = "90001", PhoneNumber = "555-987-6543" },
                      new CompanyModel { CompanyID = 3, CompanyName = "123 Industries", StreetAddress = "789 Oak St", City = "Chicago", State = "IL", PostalCode = "60601", PhoneNumber = "555-555-5555" },
                      new CompanyModel { CompanyID = 4, CompanyName = "Smith & Co.", StreetAddress = "101 Pine St", City = "Miami", State = "FL", PostalCode = "33101", PhoneNumber = "555-321-9876" },
-                     new CompanyModel { CompanyID = 5, CompanyName = "Acme Enterprises", StreetAddress = "202 Maple St", City = "San Francisco", State = "CA", PostalCode = "94101", PhoneNumber = "555-888-9999" }
-);
+                     new CompanyModel { CompanyID = 5, CompanyName = "Acme Enterprises", StreetAddress = "202 Maple St", City = "San Francisco", State = "CA", PostalCode = "94101", PhoneNumber = "555-888-9999" });
+            #endregion
+
 
         }
     }

@@ -1,12 +1,6 @@
-﻿using BulkyBookDataAccess.Repository.IRepository;
-using BulkyBookSolution.BulkyBookDataAccess.Data;
+﻿using BulkyBookSolution.BulkyBookDataAccess.Data;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BulkyBookDataAccess.Repository
 {
@@ -21,49 +15,71 @@ namespace BulkyBookDataAccess.Repository
             this.dbSet = _db.Set<T>();
             _db.Products.Include(u => u.Category).Include(u => u.CategoryID);
         }
+
+        #region Add Item
         public void Add(T item)
         {
-           dbSet.Add(item);
+            dbSet.Add(item);
         }
+        #endregion
 
+        #region GetItem
+        // Define a generic method called Get that returns a single element of type T that matches the given filter expression
         public T Get(Expression<Func<T, bool>> filter, String? includeProperties = null)
         {
+            // Start by creating a query that returns all elements of type T from the database
             IQueryable<T> query = dbSet;
+            
             if (!string.IsNullOrEmpty(includeProperties))
             {
                 foreach (var property in includeProperties.
                     Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
                 {
+                    // Include the specified related entity in the query results
                     query = query.Include(property);
                 }
             }
+            // Apply the filter expression to the query
             query = query.Where(filter);
+
+            // Return the first element that matches the filter expression, or null if no such element exists
             return query.FirstOrDefault();
         }
+        #endregion
 
+        #region Get All Item
         //Category Covertype
         public IEnumerable<T> GetAll(String? includeProperties = null)
         {
+            // Start by creating a query that returns all elements of type T from the database
             IQueryable<T> query = dbSet;
             if (!string.IsNullOrEmpty(includeProperties))
             {
                 foreach(var property in includeProperties.
                     Split(new char[] {','},StringSplitOptions.RemoveEmptyEntries))
                 {
-                    query=query.Include(property);
+                    // Include the specified related entity in the query results
+                    query = query.Include(property);
                 }
             }
+            //Return Item List
             return query.ToList();
         }
+        #endregion
 
+        #region Remove Item
         public void Remove(T item)
         {
             dbSet.Remove(item);
         }
+        #endregion
 
+        #region Remove Range of item
         public void RemoveRange(T item)
         {
            dbSet.RemoveRange(item); 
         }
-    }
+        #endregion
+
+}
 }

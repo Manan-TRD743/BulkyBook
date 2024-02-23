@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BulkyBookUtility
+﻿namespace BulkyBookUtility
 {
     public static class StaticData
     {
+        //Define the static data 
         public const string RoleUserCustomer = "Customer";
         public const string RoleUserCompany = "Copmany";
         public const string RoleUserAdmin = "Admin";

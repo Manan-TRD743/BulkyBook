@@ -1,19 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq.Expressions;
 
-namespace BulkyBookDataAccess.Repository.IRepository
+// Define a generic interface for a repository
+public interface Irepository<T> where T : class
 {
-   public interface Irepository<T> where T : class
-    {
-        IEnumerable<T> GetAll(String? includeProperties = null);
-        T Get(Expression<Func<T, bool>> filter, String? includeProperties = null);
-        void Add(T item);
+    // Get all elements of type T from the repository
+    IEnumerable<T> GetAll(String? includeProperties = null);
+
+    // Get a single element of type T from the repository that matches the given filter expression
+    T Get(Expression<Func<T, bool>> filter, String? includeProperties = null);
+
+    // Add a new element of type T to the repository
+    void Add(T item);
+
+    // Remove an existing element of type T from the repository
         void Remove(T item);
 
+    // Remove a range of elements of type T from the repository
         void RemoveRange(T item);
-    }
 }

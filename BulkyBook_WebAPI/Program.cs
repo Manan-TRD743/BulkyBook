@@ -13,13 +13,16 @@ builder.Services.AddControllers();
 
 builder.Services.AddDbContext<ApplicationDbContext>(Options =>
         Options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-
+//builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddScoped<ICategory, CategoryCrudOperation>();
+builder.Services.AddScoped<IProduct, ProductCrudOperation>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

@@ -1,4 +1,5 @@
-﻿using BulkyBook_WebAPI.Model;
+﻿using BulkyBook_WebAPI.Implementation;
+using BulkyBook_WebAPI.Model;
 using Microsoft.EntityFrameworkCore;
 
 namespace BulkyBook_WebAPI.Data
@@ -52,6 +53,7 @@ namespace BulkyBook_WebAPI.Data
                      .HasForeignKey(e => e.CategoryID)
                      .HasConstraintName("FK_Products_Categories");
 
+
                 productEntity.Property(e => e.ProductListPrice).HasColumnType("float");
                 productEntity.Property(e => e.ProductPriceOneToFifty).HasColumnType("float");
                 productEntity.Property(e => e.ProductPriceFiftyPlus).HasColumnType("float");
@@ -62,6 +64,9 @@ namespace BulkyBook_WebAPI.Data
             #endregion
         }
 
-        
+        public static implicit operator ApplicationDbContext(CategoryCrudOperation v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
