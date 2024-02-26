@@ -23,7 +23,10 @@ namespace BulkyBookSolution.BulkyBookDataAccess.Data
 
         //Create Dbset for ApplicationUsers Table
         public DbSet<ApplicationUserModel> ApplicationUsers { get; set; }
-        
+
+        //Create Dbset for ShoppingCarts Table
+        public DbSet<ShoppingCart> ShoppingCarts { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

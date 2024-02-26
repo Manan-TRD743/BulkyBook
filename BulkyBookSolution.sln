@@ -7,11 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BulkyBook", "BulkyBook\Bulk
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BulkyBook_WebAPI", "BulkyBook_WebAPI\BulkyBook_WebAPI.csproj", "{968523E1-C297-4A54-B881-272468467827}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BulkyBookModel", "BulkyBookModel\BulkyBookModel.csproj", "{7F319A06-CBCF-4CD8-A25C-4772DEB91BFD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BulkyBookModel", "BulkyBookModel\BulkyBookModel.csproj", "{7F319A06-CBCF-4CD8-A25C-4772DEB91BFD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BulkyBookDataAccess", "BulkyBookDataAccess\BulkyBookDataAccess.csproj", "{837170C3-5E96-4858-AFE1-FB5FC971F38E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BulkyBookDataAccess", "BulkyBookDataAccess\BulkyBookDataAccess.csproj", "{837170C3-5E96-4858-AFE1-FB5FC971F38E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BulkyBookUtility", "BulkyBookUtility\BulkyBookUtility.csproj", "{9448C687-B9D0-494F-A44B-B7F3B42A6507}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BulkyBookUtility", "BulkyBookUtility\BulkyBookUtility.csproj", "{9448C687-B9D0-494F-A44B-B7F3B42A6507}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
 
+using BulkyBookDataAccess.Repository.IRepository;
 using BulkyBookModel;
 using BulkyBookUtility;
 using Microsoft.AspNetCore.Authentication;
@@ -27,6 +28,7 @@ namespace BulkyBook.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<IdentityUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly IUnitOfWork _unitOfWork;
 
         public RegisterModel(
             RoleManager<IdentityRole> roleManager,
@@ -34,7 +36,8 @@ namespace BulkyBook.Areas.Identity.Pages.Account
             IUserStore<IdentityUser> userStore,
             SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            IUnitOfWork unitOfWork)
         {
             _roleManager = roleManager;
             _userManager = userManager;
@@ -43,6 +46,7 @@ namespace BulkyBook.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _unitOfWork = unitOfWork;
         }
 
         /// <summary>
@@ -107,6 +111,9 @@ namespace BulkyBook.Areas.Identity.Pages.Account
             public String ApplicationUserState { get; set; }
             public String ApplicationUserPostalCode { get; set; }
             public String PhoneNumber { get; set; }
+            public int? CompanyID { get; set; }
+            public IEnumerable<SelectListItem> CompanyList { get; set; }
+
 
         }
 
@@ -118,17 +125,22 @@ namespace BulkyBook.Areas.Identity.Pages.Account
             {
                 _roleManager.CreateAsync(new IdentityRole(StaticData.RoleUserCustomer)).GetAwaiter().GetResult();
                 _roleManager.CreateAsync(new IdentityRole(StaticData.RoleUserAdmin)).GetAwaiter().GetResult();
-                _roleManager.CreateAsync(new IdentityRole(StaticData.RoleUserCompany)).GetAwaiter().GetResult();
                 _roleManager.CreateAsync(new IdentityRole(StaticData.RoleUserEmployee)).GetAwaiter().GetResult();
+                _roleManager.CreateAsync(new IdentityRole(StaticData.RoleUserCompany)).GetAwaiter().GetResult();
             }
-
+            
             // Initialize InputModel with RoleList
             Input = new()
             {
                 RoleList = _roleManager.Roles.Select(u => u.Name).Select(i => new SelectListItem
                 {
-                    Text=i,
-                    Value=i 
+                    Text = i,
+                    Value = i
+                }),
+                CompanyList = _unitOfWork.Company.GetAll().Select(i => new SelectListItem
+                {
+                    Text = i.CompanyName,
+                    Value = i.CompanyID.ToString()
                 })
             };
 
@@ -156,6 +168,11 @@ namespace BulkyBook.Areas.Identity.Pages.Account
                 user.ApplicationUserPostalCode = Input.ApplicationUserPostalCode;
                 user.PhoneNumber= Input.PhoneNumber;
                 user.ApplicationUserName = Input.ApplicationUserName;
+
+                if(Input.Role == "Company")
+                {
+                    user.CompanyID = Input.CompanyID;
+                }
 
                 // Attempt to create the user
                 var result = await _userManager.CreateAsync(user, Input.Password);
@@ -205,7 +222,6 @@ namespace BulkyBook.Areas.Identity.Pages.Account
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
             }
-
             // If we got this far, something failed, redisplay form
             return Page();
         }

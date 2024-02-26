@@ -10,6 +10,8 @@ namespace BulkyBookDataAccess.Repository
         public ICategoryRepository Category { get; private set; }
         public IProductRepository Product { get; private set; }
         public ICompanyRepository Company { get; private set; }
+        public IShoppingCartRepository ShoppingCart { get; private set; }
+        public IApplicationUserRepository ApplicationUser { get; private set; }
 
         //Define a ApplicationDbContext for interact with Database
         private ApplicationDbContext DbContext;
@@ -23,6 +25,8 @@ namespace BulkyBookDataAccess.Repository
             Category = new CategoryRepository(DbContext);
             Product = new ProductRepository(DbContext);
             Company = new CompanyRepository(DbContext);
+            ShoppingCart = new ShoppingCartRepository(DbContext);
+            ApplicationUser = new ApplicationUserRepository(DbContext);
         }
 
 

@@ -12,6 +12,12 @@
         // Accessor for Company repository
         ICompanyRepository Company { get; }
 
+        // Accessor for Shopping Cart repository
+        IShoppingCartRepository ShoppingCart { get; }
+
+        // Accessor for ApplicationUser repository
+        IApplicationUserRepository ApplicationUser { get; }
+
         // Saves changes made in repositories
         void Save();
     }

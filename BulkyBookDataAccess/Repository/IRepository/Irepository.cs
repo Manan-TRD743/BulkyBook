@@ -4,7 +4,7 @@
 public interface Irepository<T> where T : class
 {
     // Get all elements of type T from the repository
-    IEnumerable<T> GetAll(String? includeProperties = null);
+    IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter = null, String? includeProperties = null);
 
     // Get a single element of type T from the repository that matches the given filter expression
     T Get(Expression<Func<T, bool>> filter, String? includeProperties = null);

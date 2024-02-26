@@ -49,10 +49,14 @@ namespace BulkyBookDataAccess.Repository
 
         #region Get All Item
         //Category Covertype
-        public IEnumerable<T> GetAll(String? includeProperties = null)
+        public IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter = null, String? includeProperties = null)
         {
             // Start by creating a query that returns all elements of type T from the database
             IQueryable<T> query = dbSet;
+            if(filter!= null)
+            {
+                query = query.Where(filter);
+            }
             if (!string.IsNullOrEmpty(includeProperties))
             {
                 foreach(var property in includeProperties.
