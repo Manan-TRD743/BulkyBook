@@ -112,20 +112,7 @@ namespace BulkyBook_WebAPI.Controllers
                     return NotFound(new { StatusCode = 404, Status = "Product not found" });
                 }
 
-                if (file != null)
-                {
-                    // Save the file to the server
-                    string WwwRootPath = WebHostEnvironment.WebRootPath;
-                    string filename = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-                    string productpath = Path.Combine(WwwRootPath, @"Images\Product");
-                    using (var fileStream = new FileStream(Path.Combine(productpath, filename), FileMode.Create))
-                    {
-                        file.CopyTo(fileStream);
-                    }
-                    product.ProductImgUrl = filename; // Save the file name as the product URL
-                }
-
-                await ProductObj.AddProductAsync(product);
+                await ProductObj.AddProductAsync(product,file);
                 await ProductObj.SaveProductAsync();
 
                 return Ok(new { StatusCode = 200, status = "Success", Products = product });
@@ -214,14 +201,13 @@ namespace BulkyBook_WebAPI.Controllers
         [HttpPut("update")]
         public async Task<IActionResult> PutProduct(int id,[FromForm] Product product, IFormFile file)
         {
-            string WwwRootPath = WebHostEnvironment.WebRootPath;
-            try
-            {
+            try {
+                string WwwRootPath = WebHostEnvironment.WebRootPath;
                 // Retrieve the existing product from the database
                 var existingProduct = await ProductObj.GetProductAsync(id);
                 if (existingProduct == null)
                 {
-                    return NotFound(new { StatusCode = 404, Status = "Product not found" });
+                return NotFound(new { StatusCode = 404, Status = "Product not found" });
                 }
 
                 // Delete the old image file if it exists
@@ -235,20 +221,8 @@ namespace BulkyBook_WebAPI.Controllers
                         System.IO.File.Delete(oldImagePath);
                     }
                 }
-
-                // Save the new image file to the server if provided
-                if (file != null)
-                {
-                    string filename = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-                    string productPath = Path.Combine(WwwRootPath, @"Images\Product");
-
-                    using (var fileStream = new FileStream(Path.Combine(productPath, filename), FileMode.Create))
-                    {
-                        file.CopyTo(fileStream);
-                    }
-                }
                 // Save changes to the database
-                await ProductObj.UpdateProductAsync(product);
+                await ProductObj.UpdateProductAsync(product,file);
                 await ProductObj.SaveProductAsync();
 
                 return Ok(new { StatusCode = 200, status = "Success", Products = existingProduct });

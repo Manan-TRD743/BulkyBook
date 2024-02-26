@@ -16,6 +16,8 @@ namespace BulkyBook_WebAPI.Data
 
        public DbSet<Product> Products {  get; set; }
 
+       public DbSet<Company> Companies { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -61,6 +63,34 @@ namespace BulkyBook_WebAPI.Data
 
             });
 
+            #endregion
+
+            #region Model Builder for Company
+            // Configure Company entity
+            modelBuilder.Entity<Company>(entity =>
+            {
+                // Set CompanyID as primary key
+                entity.HasKey(e => e.CompanyID);
+
+                // Configure properties
+                entity.Property(e => e.CompanyName)
+                    .IsRequired();
+
+                entity.Property(e => e.StreetAddress)
+                    .HasMaxLength(int.MaxValue); 
+
+                entity.Property(e => e.City)
+                    .HasMaxLength(int.MaxValue);
+
+                entity.Property(e => e.State)
+                    .HasMaxLength(int.MaxValue); 
+
+                entity.Property(e => e.PostalCode)
+                    .HasMaxLength(int.MaxValue); 
+
+                entity.Property(e => e.PhoneNumber)
+                    .HasMaxLength(int.MaxValue); 
+            });
             #endregion
         }
 

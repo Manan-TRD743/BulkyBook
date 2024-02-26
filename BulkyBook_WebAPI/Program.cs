@@ -22,6 +22,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<ICategory, CategoryCrudOperation>();
 builder.Services.AddScoped<IProduct, ProductCrudOperation>();
+builder.Services.AddScoped<ICompany, CompanyImplementation>();
 
 var app = builder.Build();
 
