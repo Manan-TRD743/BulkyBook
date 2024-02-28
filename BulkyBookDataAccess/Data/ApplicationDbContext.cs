@@ -27,6 +27,14 @@ namespace BulkyBookSolution.BulkyBookDataAccess.Data
         //Create Dbset for ShoppingCarts Table
         public DbSet<ShoppingCart> ShoppingCarts { get; set; }
 
+        //Create Dbset for OrderHeaders Table
+        public DbSet<OrderHeaderModel> OrderHeaders { get; set; }
+
+        //Create Dbset for OrderDetails Table
+        public DbSet<OrderDetailModel> OrderDetails { get; set; }
+
+
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

@@ -79,7 +79,7 @@ namespace BulkyBookDataAccess.Repository
         #endregion
 
         #region Remove Range of item
-        public void RemoveRange(T item)
+        public void RemoveRange(IEnumerable<T> item)
         {
            dbSet.RemoveRange(item); 
         }

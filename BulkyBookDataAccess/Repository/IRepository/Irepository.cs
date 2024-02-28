@@ -16,5 +16,5 @@ public interface Irepository<T> where T : class
         void Remove(T item);
 
     // Remove a range of elements of type T from the repository
-        void RemoveRange(T item);
+        void RemoveRange(IEnumerable<T> item);
 }

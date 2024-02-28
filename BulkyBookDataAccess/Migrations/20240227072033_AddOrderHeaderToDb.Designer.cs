@@ -4,6 +4,7 @@ using BulkyBookSolution.BulkyBookDataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BulkyBookSolution.BulkyBookDataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240227072033_AddOrderHeaderToDb")]
+    partial class AddOrderHeaderToDb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -106,35 +109,6 @@ namespace BulkyBookSolution.BulkyBookDataAccess.Migrations
                         });
                 });
 
-            modelBuilder.Entity("BulkyBookModel.OrderDetailModel", b =>
-                {
-                    b.Property<int>("OrderDetailID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderDetailID"));
-
-                    b.Property<int>("OrderHeaderID")
-                        .HasColumnType("int");
-
-                    b.Property<double>("OrderPrice")
-                        .HasColumnType("float");
-
-                    b.Property<int>("ProductCount")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProductID")
-                        .HasColumnType("int");
-
-                    b.HasKey("OrderDetailID");
-
-                    b.HasIndex("OrderHeaderID");
-
-                    b.HasIndex("ProductID");
-
-                    b.ToTable("OrderDetails");
-                });
-
             modelBuilder.Entity("BulkyBookModel.OrderHeaderModel", b =>
                 {
                     b.Property<int>("OrderHeaderID")
@@ -169,9 +143,6 @@ namespace BulkyBookSolution.BulkyBookDataAccess.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PaymentStatus")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SessionId")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateOnly>("ShippingDate")
@@ -645,25 +616,6 @@ namespace BulkyBookSolution.BulkyBookDataAccess.Migrations
                     b.HasIndex("CompanyID");
 
                     b.HasDiscriminator().HasValue("ApplicationUserModel");
-                });
-
-            modelBuilder.Entity("BulkyBookModel.OrderDetailModel", b =>
-                {
-                    b.HasOne("BulkyBookModel.OrderHeaderModel", "OrderHeader")
-                        .WithMany()
-                        .HasForeignKey("OrderHeaderID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("BulkyBookModel.ProductModel", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("OrderHeader");
-
-                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("BulkyBookModel.OrderHeaderModel", b =>

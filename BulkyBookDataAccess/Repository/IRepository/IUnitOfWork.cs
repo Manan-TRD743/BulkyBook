@@ -18,6 +18,9 @@
         // Accessor for ApplicationUser repository
         IApplicationUserRepository ApplicationUser { get; }
 
+        IOrderHeaderRepository OrderHeader { get; }
+        IOrderDetailRepository OrderDetail { get; } 
+
         // Saves changes made in repositories
         void Save();
     }

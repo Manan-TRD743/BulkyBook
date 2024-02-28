@@ -4,6 +4,7 @@ using BulkyBookSolution.BulkyBookDataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BulkyBookSolution.BulkyBookDataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240227072548_AddOrderDetailsToDb")]
+    partial class AddOrderDetailsToDb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -108,16 +111,16 @@ namespace BulkyBookSolution.BulkyBookDataAccess.Migrations
 
             modelBuilder.Entity("BulkyBookModel.OrderDetailModel", b =>
                 {
-                    b.Property<int>("OrderDetailID")
+                    b.Property<int>("OrderDetailId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderDetailID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderDetailId"));
 
                     b.Property<int>("OrderHeaderID")
                         .HasColumnType("int");
 
-                    b.Property<double>("OrderPrice")
+                    b.Property<double>("Price")
                         .HasColumnType("float");
 
                     b.Property<int>("ProductCount")
@@ -126,7 +129,7 @@ namespace BulkyBookSolution.BulkyBookDataAccess.Migrations
                     b.Property<int>("ProductID")
                         .HasColumnType("int");
 
-                    b.HasKey("OrderDetailID");
+                    b.HasKey("OrderDetailId");
 
                     b.HasIndex("OrderHeaderID");
 
@@ -169,9 +172,6 @@ namespace BulkyBookSolution.BulkyBookDataAccess.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PaymentStatus")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SessionId")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateOnly>("ShippingDate")
