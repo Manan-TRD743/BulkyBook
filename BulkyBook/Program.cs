@@ -2,6 +2,7 @@ using BulkyBookDataAccess.Repository;
 using BulkyBookDataAccess.Repository.IRepository;
 using BulkyBookSolution.BulkyBookDataAccess.Data;
 using BulkyBookUtility;
+using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
@@ -32,6 +33,11 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
 });
 
+builder.Services.AddAuthentication().AddGoogle(googleOptions =>
+{
+    googleOptions.ClientId = "918886830320-39mb0u7uj5674trd5a7r9o2jvha8v4ne.apps.googleusercontent.com";
+    googleOptions.ClientSecret = "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";
+});
 
 //Add Session
 builder.Services.AddDistributedMemoryCache();
