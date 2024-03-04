@@ -236,7 +236,7 @@
                             </ul>
                             @if(Model.orderHeader.PaymentStatus==StaticData.PaymentStatusDelayedPayment && Model.orderHeader.OrderStatus == StaticData.StatusShipped)
                             {
-                                <button type="submit" class="btn btn-success form-control my-1">Pay Now</button>
+                                <button type="submit" asp-action="PayDelayPayment" class="btn btn-success form-control my-1">Pay Now</button>
                             }
                             @if (User.IsInRole(StaticData.RoleUserAdmin) || User.IsInRole(StaticData.RoleUserEmployee))
                             {
@@ -252,7 +252,7 @@
                                     Model.orderHeader.OrderStatus != StaticData.StatusCancelled &&
                                 Model.orderHeader.OrderStatus != StaticData.StatusShipped)
                                 {
-                                    <button type="submit" class="btn btn-danger form-control my-1">Cancel Order</button>
+                                    <button type="submit" asp-action="CancelOrder" class="btn btn-danger form-control my-1">Cancel Order</button>
                                 }
                                 
                             }

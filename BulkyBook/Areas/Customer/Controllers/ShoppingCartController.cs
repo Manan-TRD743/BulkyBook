@@ -4,8 +4,6 @@ using BulkyBookModel.ViewModel;
 using BulkyBookUtility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Query.Internal;
-using Stripe;
 using Stripe.Checkout;
 using System.Security.Claims;
 
@@ -61,11 +59,13 @@ namespace BulkyBook.Areas.Customer.Controllers
             if (cartFromDb.ProductCount <= 1)
             {
                 _unitOfWork.ShoppingCart.Remove(cartFromDb);
+                HttpContext.Session.SetInt32(StaticData.SessionCart, _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == cartFromDb.ApplicationUserId).Count()-1);
             }
             else
             {
                 cartFromDb.ProductCount -= 1;
                 _unitOfWork.ShoppingCart.Update(cartFromDb);
+                
             }
             _unitOfWork.Save();
             return RedirectToAction(nameof(Index));
@@ -78,7 +78,9 @@ namespace BulkyBook.Areas.Customer.Controllers
             var cartFromDb = _unitOfWork.ShoppingCart.Get(u => u.CartId == cartID);
             _unitOfWork.ShoppingCart.Remove(cartFromDb);
             _unitOfWork.Save();
+            HttpContext.Session.SetInt32(StaticData.SessionCart, _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == cartFromDb.ApplicationUserId).Count());
             return RedirectToAction(nameof(Index));
+
         }
 
         #endregion
@@ -164,7 +166,7 @@ namespace BulkyBook.Areas.Customer.Controllers
                 _unitOfWork.Save();
             }
 
-                        #region Stripe Payment Logic
+             #region Stripe Payment Logic
             if (applicationUser.CompanyID.GetValueOrDefault() == 0)
             {
                 //It is regular customer account and we need to capture Payment
