@@ -5,7 +5,6 @@
     {
         // Accessor for Category repository
         ICategoryRepository Category { get; }
-
         // Accessor for Product repository
         IProductRepository Product { get; }
 
