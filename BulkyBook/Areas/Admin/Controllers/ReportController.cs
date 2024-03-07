@@ -29,30 +29,32 @@ namespace BulkyBook.Areas.Admin.Controllers
         {
             return View();
         }
+        #region Get Order Report
         [HttpGet]
         public IActionResult GetOrderReport(DateTime StartDate, DateTime EndDate)
         {
-             IEnumerable<OrderHeaderModel> objorderHeaders = _UnitOfWork.OrderHeader
+            IEnumerable<OrderHeaderModel> objorderHeaders = _UnitOfWork.OrderHeader
             .GetAll(includeProperties: "ApplicationUser")
-            .Where(u => u.OrderDate >= StartDate && u.OrderDate <= EndDate)
+            .Where(u => u.OrderDate.Date >= StartDate.Date && u.OrderDate.Date <= EndDate.Date)
             .ToList();
                 return Json(new { Data = objorderHeaders });
             
         }
+        #endregion
 
+        #region Get Transaction Report
         [HttpGet]
         public IActionResult GetTransactionReport(DateTime StartDate, DateTime EndDate)
         {
-            DateTime startDateFormatted = StartDate.Date;
-            DateTime endDateFormatted = EndDate.Date.AddDays(1).AddMilliseconds(-1);
             IEnumerable<OrderHeaderModel> objorderHeaders = _UnitOfWork.OrderHeader
            .GetAll(includeProperties: "ApplicationUser")
-           .Where(u => u.PaymentDate >= startDateFormatted && u.PaymentDate <= endDateFormatted
+           .Where(u => u.PaymentDate.Date >= StartDate.Date && u.PaymentDate.Date <= EndDate.Date
                   && (u.OrderStatus ==StaticData.StatusApproved || u.OrderStatus==StaticData.StatusShipped || u.OrderStatus == StaticData.StatusInProcess)
                   && (u.PaymentStatus ==StaticData.PaymentStatusApproved))
            .ToList();
             return Json(new { Data = objorderHeaders });
 
         }
+        #endregion
     }
 }

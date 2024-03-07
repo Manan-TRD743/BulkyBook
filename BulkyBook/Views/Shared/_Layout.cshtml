@@ -17,10 +17,13 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow mb-3" style="background-color:#3A595C;">
             <div class="container-fluid">
-                <a class="btn text-white navbar-brand" style="background-color:#3A595C; font-size: 20px;" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
-                    <i class="bi bi-justify"></i>
-                </a>
-              <a class="navbar-brand text-white" asp-area="" asp-controller="Home" asp-action="Index">BulkyBook</a>
+                @if (User.IsInRole("Admin"))
+                {
+                    <a class="btn text-white navbar-brand" style="background-color:#3A595C; font-size: 20px;" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
+                        <i class="bi bi-justify"></i>
+                    </a>
+                }
+                <a class="navbar-brand text-white" asp-area="" asp-controller="Home" asp-action="Index">BulkyBook</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -31,78 +34,73 @@
                             <a class="nav-link text-white" asp-area="Customer" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-white" asp-area="Admin" asp-controller="Order" asp-action="Index" >Manange Order</a>
+                            <a class="nav-link text-white" asp-area="Admin" asp-controller="Order" asp-action="Index">Manange Order</a>
                         </li>
-                        @if (User.IsInRole(StaticData.RoleUserAdmin))
-                        {
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Content Management
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown" >
-                                <li class="nav-item">
-                                    <a class="dropdown-item text-black" asp-area="Admin" asp-controller="Category" asp-action="Index">Category</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="dropdown-item text-black" asp-area="Admin" asp-controller="Product" asp-action="Index">Product</a>
-                                </li>
-                                    <li class="nav-item">
-                                        <a class="dropdown-item text-black" asp-area="Admin" asp-controller="Company" asp-action="Index">Company</a>
-                                    </li>
-                                <li><hr class="dropdown-divider"></li>
-                                    <li class="nav-item">
-                                        <a class="dropdown-item text-black" asp-area="Identity" asp-page="/Account/Register">Create User</a>
-                                    </li>
-                            </ul>
-                        </li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Reports
-                                </a>
-                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li class="nav-item">
-                                        <a class="dropdown-item text-black" asp-area="Admin" asp-controller="Report" asp-action="OrderReport">Order History</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="dropdown-item text-black" asp-area="Admin" asp-controller="Report" asp-action="TransactionReport">Transaction History</a>
-                                    </li>
-                                </ul>
-                            </li>
+                      
+                        <li class="nav-item">
+                            <a class="nav-link text-white" asp-area="Customer" asp-controller="ShoppingCart" asp-action="Index">
 
-                        }
-                            <li class="nav-item">
-                                <a class="nav-link text-white" asp-area="Customer" asp-controller="ShoppingCart" asp-action="Index">
-                                   
-                                    @await Component.InvokeAsync("ShoppingCart") 
-                                </a>
-                            </li>
+                                @await Component.InvokeAsync("ShoppingCart")
+                            </a>
+                        </li>
                     </ul>
-                    <partial name="_LoginPartial"/>
+                    <partial name="_LoginPartial" />
                 </div>
             </div>
         </nav>
     </header>
-    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
-        <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="offcanvasExampleLabel">Offcanvas</h5>
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel" style="width: 250px;">
+        <div class="offcanvas-header bg-secondary" >
+            <h5 class="offcanvas-title text-white" id=" offcanvasExampleLabel">BulkyBook</h5>
             <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
-            <div>
-                Some text as placeholder. In real life you can have the elements you have chosen. Like, text, images, lists, etc.
-            </div>
-            <div class="dropdown mt-3">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                    Dropdown button
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="">
-                    <li><a class="dropdown-item" href="#">Action</a></li>
-                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                </ul>
+            <div class="accordion" id="accordionExample">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingOne">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                            Content Management
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample" style="">
+                        <div class="accordion-body">
+
+                           <a class="dropdown-item text-black" asp-area="Admin" asp-controller="Category" asp-action="Index">Category</a>
+                            <a class="dropdown-item text-black" asp-area="Admin" asp-controller="Product" asp-action="Index">Product</a>
+                            <a class="dropdown-item text-black" asp-area="Admin" asp-controller="Company" asp-action="Index">Company</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingTwo">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            Reports
+                        </button>
+                    </h2>
+                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            <a class="dropdown-item text-black" asp-area="Admin" asp-controller="Report" asp-action="OrderReport">Order History</a>
+                            <a class="dropdown-item text-black" asp-area="Admin" asp-controller="Report" asp-action="TransactionReport">Transaction History</a>
+                        </div>
+                        </div>
+                    </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingOne">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsethree" aria-expanded="false" aria-controls="collapseOne">
+                            Create User
+                        </button>
+                    </h2>
+                    <div id="collapsethree" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample" style="">
+                        <div class="accordion-body">
+                            <a class="dropdown-item text-black" asp-area="Identity" asp-page="/Account/Register">Create New User</a>
+                        </div>
+                    </div>
+                </div>
+                </div>
             </div>
         </div>
     </div>
+
     <div class="container">
         <main role="main" class="pb-3">
             <partial name="_Notification" />
@@ -118,7 +116,7 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="https://cdn.tiny.cloud/1/he536lxclfcrqcssixtxi2o99fuoojdfrbycai15nhthmq2r/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
-    <script src="//cdn.datatables.net/2.0.0/js/dataTables.min.js"></script> 
+    <script src="//cdn.datatables.net/2.0.0/js/dataTables.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
