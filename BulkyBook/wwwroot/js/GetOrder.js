@@ -1,5 +1,4 @@
-﻿
-$(document).ready(function () {
+﻿$(document).ready(function () {
     var url = window.location.search;
     if (url.includes("inprocess")) {
         loadDataTable("inprocess");

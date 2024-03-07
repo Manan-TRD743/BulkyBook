@@ -1,5 +1,4 @@
-﻿using BulkyBook.Areas.Customer.Controllers;
-using BulkyBookDataAccess.Repository.IRepository;
+﻿using BulkyBookDataAccess.Repository.IRepository;
 using BulkyBookUtility;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;

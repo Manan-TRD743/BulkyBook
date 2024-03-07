@@ -1,5 +1,4 @@
-﻿using BulkyBookDataAccess.Repository;
-using BulkyBookDataAccess.Repository.IRepository;
+﻿using BulkyBookDataAccess.Repository.IRepository;
 using BulkyBookModel;
 using BulkyBookModel.ViewModel;
 using BulkyBookUtility;

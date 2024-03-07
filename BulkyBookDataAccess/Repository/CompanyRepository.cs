@@ -4,7 +4,6 @@ using BulkyBookSolution.BulkyBookDataAccess.Data;
 
 namespace BulkyBookDataAccess.Repository
 {
-    //Implement a ICompanyRepository interface and also inherit the Repository class for Company Model
     public class CompanyRepository : Repository<CompanyModel>, ICompanyRepository
     {
         //Create a ApplicationDbContext Object

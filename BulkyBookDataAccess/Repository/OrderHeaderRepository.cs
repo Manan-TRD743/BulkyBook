@@ -2,10 +2,8 @@
 using BulkyBookModel;
 using BulkyBookSolution.BulkyBookDataAccess.Data;
 
-
 namespace BulkyBookDataAccess.Repository
 {
-    //Implement a IOrderHeaderRepository interface and also inherit the Repository class for OrderHeader Model
     public class OrderHeaderRepository : Repository<OrderHeaderModel>, IOrderHeaderRepository
     {
         //Create a ApplicationDbContext Object
@@ -23,6 +21,7 @@ namespace BulkyBookDataAccess.Repository
             _DbContext.Update(orderHeader);
         }
 
+        #region Update Status of Order and Payment
         public void UpdateStatus(int id, string OrderStatus, string? PaymentStatus = null)
         {
             var orderFromDb = _DbContext.OrderHeaders.FirstOrDefault(u => u.OrderHeaderID == id);
@@ -35,7 +34,9 @@ namespace BulkyBookDataAccess.Repository
                 }
             }
         }
+        #endregion
 
+        #region Update Stripe Payment ID
         public void UpdateStripePaymentID(int id, string sessionId, string paymentIntentId)
         {
             var orderFromDb = _DbContext.OrderHeaders.FirstOrDefault(u => u.OrderHeaderID == id);
@@ -49,5 +50,6 @@ namespace BulkyBookDataAccess.Repository
                 orderFromDb.PaymentDate = DateTime.Now;
             }
         }
+        #endregion
     }
 }

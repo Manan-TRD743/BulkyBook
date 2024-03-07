@@ -3,7 +3,6 @@ using BulkyBookSolution.BulkyBookDataAccess.Data;
 
 namespace BulkyBookDataAccess.Repository
 {
-    //Implement IUnitOfWork Interface
     public class UnitOfWork : IUnitOfWork
     {
         // Declare properties for each repository that will be used in the unit of work
@@ -33,8 +32,6 @@ namespace BulkyBookDataAccess.Repository
             OrderHeader = new OrderHeaderRepository(DbContext);
         }
 
-
-        // Define a method called Save that saves all changes made to the database
         public void Save()
         {
             DbContext.SaveChanges();

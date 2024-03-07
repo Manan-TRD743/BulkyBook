@@ -1,12 +1,10 @@
 ﻿using BulkyBookDataAccess.Repository.IRepository;
 using BulkyBookModel;
 using BulkyBookSolution.BulkyBookDataAccess.Data;
-using BulkyBookSolution.BulkyBookModel.Models;
 
 
 namespace BulkyBookDataAccess.Repository
 {
-    //Implement a IOrderDetailRepository interface and also inherit the Repository class for OrderDetail Model
     public class OrderDetailRepository : Repository<OrderDetailModel>, IOrderDetailRepository
     {
         //Create a ApplicationDbContext Object

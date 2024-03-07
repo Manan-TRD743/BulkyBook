@@ -2,10 +2,8 @@
 using BulkyBookSolution.BulkyBookDataAccess.Data;
 using BulkyBookSolution.BulkyBookModel.Models;
 
-
 namespace BulkyBookDataAccess.Repository
 {
-    //Implement a ICategoyRepository interface and also inherit the Repository class for Category Model
     public class CategoryRepository : Repository<CategoryModel>, ICategoryRepository
     {
         //Create a ApplicationDbContext Object

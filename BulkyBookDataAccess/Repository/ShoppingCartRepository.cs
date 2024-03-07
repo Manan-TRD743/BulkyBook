@@ -1,12 +1,9 @@
 ﻿using BulkyBookDataAccess.Repository.IRepository;
 using BulkyBookModel;
 using BulkyBookSolution.BulkyBookDataAccess.Data;
-using BulkyBookSolution.BulkyBookModel.Models;
-
 
 namespace BulkyBookDataAccess.Repository
 {
-    //Implement a IShoppingCartRepository interface and also inherit the Repository class for Category Model
     public class ShoppingCartRepository : Repository<ShoppingCart>, IShoppingCartRepository
     {
         //Create a ApplicationDbContext Object

@@ -4,7 +4,7 @@ using BulkyBookSolution.BulkyBookDataAccess.Data;
 
 namespace BulkyBookDataAccess.Repository
 {
-    //Implement a IProductRepository interface and also inherit the Repository class for Product Model
+   
     public class ProductRepository : Repository<ProductModel>, IProductRepository
     {
         //Create a ApplicationDbContext Object

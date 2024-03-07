@@ -1,6 +1,6 @@
 ﻿@model OrderViewModel
 <form method="post">
-    <input asp-for="orderHeader.OrderHeaderID" hidden/>
+    <input asp-for="orderHeader.OrderHeaderID" hidden />
     <br />
     <div class="container">
         <div class="card" style="margin-bottom: 75px;">
@@ -14,7 +14,7 @@
                     </div>
                 </div>
             </div>
-            <div class="card-body" >
+            <div class="card-body">
                 <div class="container rounded p-2">
                     <div class="row">
                         <div class="col-12 col-lg-6 pb-4">
@@ -26,7 +26,7 @@
                             <div class="row my-1">
                                 <div class="col-3">Name</div>
                                 <div class="col-9">
-                                    @if(User.IsInRole(StaticData.RoleUserAdmin) || User.IsInRole(StaticData.RoleUserEmployee))
+                                    @if (User.IsInRole(StaticData.RoleUserAdmin) || User.IsInRole(StaticData.RoleUserEmployee))
                                     {
                                         <input asp-for="orderHeader.UserName" type="text" class="form-control" />
                                         <span asp-validation-for="orderHeader.UserName" class="text-danger"></span>
@@ -35,7 +35,7 @@
                                     {
                                         <input asp-for="orderHeader.UserName" readonly type="text" class="form-control" />
                                     }
-                                    
+
                                 </div>
                             </div>
                             <div class="row my-1">
@@ -154,7 +154,7 @@
                                     <input asp-for="orderHeader.ShippingDate" readonly type="text" class="form-control" />
                                 </div>
                             </div>
-                            
+
                             @if (User.IsInRole(StaticData.RoleUserAdmin) || User.IsInRole(StaticData.RoleUserEmployee))
                             {
                                 <div class="row my-1">
@@ -170,7 +170,7 @@
                                     </div>
                                 </div>
                             }
-                            
+
                             <div class="row my-1">
                                 @if (Model.orderHeader.SessionId == null)
                                 {
@@ -187,7 +187,7 @@
                                     </div>
 
                                 }
-                              
+
                             </div>
                             <div class="row my-1">
                                 <div class="col-3">Payment Status</div>
@@ -208,20 +208,21 @@
                             <label class="btn btn-outline-primary form-control my-2">Order Status - @Model.orderHeader.OrderStatus</label>
 
                             <ul class="list-group mb-3">
-                                @foreach(var details in Model.orderDetails){
-                                <li class="list-group-item d-flex justify-content-between p-2">
-                                    <div class="row container">
-                                        <div class="col-8">
+                                @foreach (var details in Model.orderDetails)
+                                {
+                                    <li class="list-group-item d-flex justify-content-between p-2">
+                                        <div class="row container">
+                                            <div class="col-8">
 
-                                            <h6 class="my-0 text-primary">@details.Product.ProductTitle</h6>
+                                                <h6 class="my-0 text-primary">@details.Product.ProductTitle</h6>
                                                 <small class="text-muted">Price : @string.Format("₹ " + details.OrderPrice)</small><br />
                                                 <small class="text-muted">Quantity : @details.ProductCount</small>
-                                        </div>
-                                        <div class="col-4 text-end">
+                                            </div>
+                                            <div class="col-4 text-end">
                                                 <p class="text-success">@string.Format("₹ " + (details.OrderPrice * details.ProductCount))</p>
+                                            </div>
                                         </div>
-                                    </div>
-                                </li>
+                                    </li>
                                 }
                                 <li class="list-group-item " style="background-color:#3A595C;">
                                     <div class="row container">
@@ -234,13 +235,13 @@
                                     </div>
                                 </li>
                             </ul>
-                            @if(Model.orderHeader.PaymentStatus==StaticData.PaymentStatusDelayedPayment && Model.orderHeader.OrderStatus == StaticData.StatusShipped)
+                            @if (Model.orderHeader.PaymentStatus == StaticData.PaymentStatusDelayedPayment && Model.orderHeader.OrderStatus == StaticData.StatusShipped)
                             {
                                 <button type="submit" asp-action="PayDelayPayment" class="btn btn-success form-control my-1">Pay Now</button>
                             }
                             @if (User.IsInRole(StaticData.RoleUserAdmin) || User.IsInRole(StaticData.RoleUserEmployee))
                             {
-                                if(Model.orderHeader.OrderStatus == StaticData.StatusApproved)
+                                if (Model.orderHeader.OrderStatus == StaticData.StatusApproved)
                                 {
                                     <button type="submit" asp-action="StartOrderProcessing" class="btn form-control my-1 text-white" style="background-color:#3A595C;">Start Processing</button>
                                 }
@@ -249,12 +250,12 @@
                                     <button type="submit" asp-action="OrderShipping" onclick="return validateInput()" class="btn btn-success form-control my-1">Ship Order</button>
                                 }
                                 if (Model.orderHeader.OrderStatus != StaticData.StatusRefunded &&
-                                    Model.orderHeader.OrderStatus != StaticData.StatusCancelled &&
+                                Model.orderHeader.OrderStatus != StaticData.StatusCancelled &&
                                 Model.orderHeader.OrderStatus != StaticData.StatusShipped)
                                 {
                                     <button type="submit" asp-action="CancelOrder" class="btn btn-danger form-control my-1">Cancel Order</button>
                                 }
-                                
+
                             }
                         </div>
                     </div>
@@ -262,16 +263,16 @@
             </div>
         </div>
     </div>
-</form> 
+</form>
 
 
-@section Scripts{
-    <partial name="_ValidationScriptsPartial"/>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
     <script>
         function validateInput() {
             if (document.getElementById("trackingNumber").value == "") {
                 Swal.fire({
-                    icon:'error',
+                    icon: 'error',
                     title: 'Oops...',
                     text: 'Please Enter Tracking Number!',
                 });

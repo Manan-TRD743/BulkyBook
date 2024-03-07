@@ -12,25 +12,13 @@ namespace BulkyBookSolution.BulkyBookDataAccess.Data
         {
             
         }
-        //Create Dbset for Categories Table
+        //Create Dbset for Table
         public DbSet<CategoryModel> Categories { get; set; }
-
-        //Create Dbset for Products Table
         public DbSet<ProductModel> Products { get; set; }
-
-        //Create Dbset for Companies Table
         public DbSet<CompanyModel> Companies { get; set; }
-
-        //Create Dbset for ApplicationUsers Table
         public DbSet<ApplicationUserModel> ApplicationUsers { get; set; }
-
-        //Create Dbset for ShoppingCarts Table
         public DbSet<ShoppingCart> ShoppingCarts { get; set; }
-
-        //Create Dbset for OrderHeaders Table
         public DbSet<OrderHeaderModel> OrderHeaders { get; set; }
-
-        //Create Dbset for OrderDetails Table
         public DbSet<OrderDetailModel> OrderDetails { get; set; }
 
 
